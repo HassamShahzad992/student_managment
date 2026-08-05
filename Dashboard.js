@@ -735,7 +735,7 @@
     const banner = document.getElementById('banner');
     const mainWrapper = document.getElementById('mainWrapper');
     const studentLoginPage = document.getElementById('studentLoginPage');
-    const studentDashboardPage = document.getElementById('studentDashboardPage');
+    const studentindexPage = document.getElementById('studentindexPage');
     const roleSelectionPage = document.getElementById('roleSelectionPage');
 
     if (!selectedTeacherKey) {
@@ -746,7 +746,7 @@
       if (signupPage) signupPage.classList.remove('active');
       if (banner) banner.style.display = 'none';
       if (mainWrapper) mainWrapper.style.display = 'none';
-      if (studentDashboardPage) studentDashboardPage.classList.remove('active');
+      if (studentindexPage) studentindexPage.classList.remove('active');
       const splashScreen = document.getElementById('splashScreen');
       const loadingScreen = document.getElementById('loadingScreen');
       if (splashScreen) splashScreen.classList.add('hidden');
@@ -760,28 +760,28 @@
 
     if (isStudentLoggedIn) {
       // ...unchanged from here down...
-      // Show student dashboard
+      // Show student index
       if (roleSelectionPage) roleSelectionPage.classList.remove('active');
       if (studentLoginPage) studentLoginPage.classList.remove('active');
       if (signupPage) signupPage.classList.remove('active');
       if (banner) banner.style.display = 'none';
       if (mainWrapper) mainWrapper.style.display = 'none';
-      if (studentDashboardPage) studentDashboardPage.classList.add('active');
+      if (studentindexPage) studentindexPage.classList.add('active');
       const splashScreen = document.getElementById('splashScreen');
       if (splashScreen) splashScreen.classList.add('hidden');
       // Load shared data (students/batches/quizzes) so the student view has
       // everything it needs (batch-based quiz visibility, fee info, etc.)
       initializeData();
       initializeQuizzes();
-      loadStudentDashboard();
+      loadStudentindex();
     } else if (isTeacherLoggedIn) {
-      // Show teacher dashboard
+      // Show teacher index
       if (roleSelectionPage) roleSelectionPage.classList.remove('active');
       if (studentLoginPage) studentLoginPage.classList.remove('active');
       if (signupPage) signupPage.classList.remove('active');
       if (banner) banner.style.display = 'block';
       if (mainWrapper) mainWrapper.style.display = 'flex';
-      if (studentDashboardPage) studentDashboardPage.classList.remove('active');
+      if (studentindexPage) studentindexPage.classList.remove('active');
       const splashScreen = document.getElementById('splashScreen');
       if (splashScreen) splashScreen.classList.add('hidden');
       setTimeout(() => {
@@ -797,7 +797,7 @@
       if (signupPage) signupPage.classList.remove('active');
       if (banner) banner.style.display = 'none';
       if (mainWrapper) mainWrapper.style.display = 'none';
-      if (studentDashboardPage) studentDashboardPage.classList.remove('active');
+      if (studentindexPage) studentindexPage.classList.remove('active');
       const splashScreen = document.getElementById('splashScreen');
       const loadingScreen = document.getElementById('loadingScreen');
       if (splashScreen) splashScreen.classList.add('hidden');
@@ -1011,7 +1011,7 @@
 
   initDonutHoverTooltip();
 
-  function loadStudentDashboard() {
+  function loadStudentindex() {
     const studentData = loadFromStorage(STUDENT_DATA_KEY, {});
     
     if (document.getElementById('studentWelcomeName')) {
@@ -1254,7 +1254,7 @@
   let monthlyData = { students: {}, invoices: {} };
   let batches = {};
   let accessCredentials = [];
-  let currentPage = 'dashboard';
+  let currentPage = 'index';
   let newNotificationCount = 0;
   let currentDetailType = null;
   let currentMonthIndex = null;
@@ -1319,7 +1319,7 @@
 
     const savedNotifications = loadFromStorage(STORAGE_KEYS.NOTIFICATIONS, [
       {
-        title: 'Welcome to ITSkills Dashboard',
+        title: 'Welcome to ITSkills index',
         sub: 'Your attendance management system is ready to use!',
         time: 'Just now'
       }
@@ -1345,7 +1345,7 @@
       });
     }
 
-    updateDashboardCounters();
+    updateindexCounters();
     updateBadges();
   }
 
@@ -1359,7 +1359,7 @@
       navEl.classList.add('active');
     } else {
       const items = document.querySelectorAll('.nav-item');
-      if (pageId === 'dashboard' && items[0]) items[0].classList.add('active');
+      if (pageId === 'index' && items[0]) items[0].classList.add('active');
       else if (pageId === 'students' && items[1]) items[1].classList.add('active');
       else if (pageId === 'attendance' && items[2]) items[2].classList.add('active');
       else if (pageId === 'quiz' && items[3]) items[3].classList.add('active');
@@ -1496,7 +1496,7 @@
     saveToStorage(STORAGE_KEYS.MONTHLY_DATA, monthlyData);
     saveToStorage(STORAGE_KEYS.BATCHES, batches);
 
-    updateDashboardCounters();
+    updateindexCounters();
     updateBadges();
     updateAttendanceCourses();
 
@@ -1504,10 +1504,10 @@
     showToast('Admission Saved! 🎉', `${student.fullName} has been successfully registered.`);
 
     clearForm();
-    setTimeout(() => showPage('dashboard', document.querySelectorAll('.nav-item')[0]), 1400);
+    setTimeout(() => showPage('index', document.querySelectorAll('.nav-item')[0]), 1400);
   }
 
-  function updateDashboardCounters() {
+  function updateindexCounters() {
     const totalStudents = students.length;
     const totalStudentsEl = document.getElementById('totalStudents');
     if (totalStudentsEl) totalStudentsEl.textContent = totalStudents.toLocaleString();
@@ -1616,7 +1616,7 @@
     saveToStorage(STORAGE_KEYS.MONTHLY_DATA, monthlyData);
     saveToStorage(STORAGE_KEYS.BATCHES, batches);
 
-    updateDashboardCounters();
+    updateindexCounters();
     renderStudentsTable();
     updateBadges();
     showToast('Student Deleted', `${student.fullName} has been removed.`);
@@ -1638,12 +1638,12 @@
     document.getElementById('messageText').value = '';
     document.getElementById('charCount').textContent = '0';
     showToast('Message Sent! ✈️', `Your message has been sent to ${students.length} student${students.length > 1 ? 's' : ''}.`);
-    setTimeout(() => showPage('dashboard', document.querySelectorAll('.nav-item')[0]), 1500);
+    setTimeout(() => showPage('index', document.querySelectorAll('.nav-item')[0]), 1500);
   }
 
   function handleCancel() {
     clearForm();
-    showPage('dashboard', document.querySelectorAll('.nav-item')[0]);
+    showPage('index', document.querySelectorAll('.nav-item')[0]);
   }
 
   function showToast(title, sub) {
@@ -2194,7 +2194,7 @@
 
     accessCredentials = accessCredentials.filter(c => c.id !== credentialId);
     saveToStorage(STORAGE_KEYS.ACCESS_CREDENTIALS, accessCredentials);
-    updateDashboardCounters();
+    updateindexCounters();
     renderCredentialsTable();
     showToast('Credential Deleted', 'Access credential has been removed.');
   }
